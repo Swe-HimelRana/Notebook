@@ -48,7 +48,11 @@ Check shared_buffer
 ```bash
 docker exec -it master psql -U postgres -c "SHOW shared_buffers;"
 ```
+Check datestyle
 
+```bash
+docker exec -it master psql -U postgres -c "SHOW datestyle;"
+```
 
 ## Create Replication User
 In order to take a backup we will use a new PostgreSQL user account which has the permissions to do replication.
@@ -62,11 +66,7 @@ verify replicationUser created or not
 ```bash
 docker exec -it master psql -U postgres -c "\du"
 ```
-verify datestyle
 
-```bash
-docker exec -it master psql -U postgres -c "SHOW datestyle;"
-```
 
 ## Enable Write-Ahead Log and Replication
 There is quite a lot to read about PostgreSQL when it comes to high availability.
