@@ -23,17 +23,32 @@ mkdir -p "${PWD}/postgres/master/archive" && sudo chown -R 999:999 "${PWD}/postg
 
 ## Start with instance 1 (master):
 ```bash
-docker run -d --name master \
-  -e POSTGRES_USER=postgresadmin \
-  -e POSTGRES_PASSWORD=postgresadmin123 \
+docker run --name master \
+  -e POSTGRES_PASSWORD=himosoft123 \
   -e POSTGRES_DB=postgresdb \
   -e PGDATA=/data \
-  -v ${PWD}/postgres/master/pgdata:/data \
+  -v ${PWD}/postgres/master/data:/data \
   -v ${PWD}/postgres/master/config:/config \
   -v ${PWD}/postgres/master/archive:/mnt/server/archive \
   -p 5000:5432 \
   postgres:15.0 -c config_file=/config/postgresql.conf
 ```
+Default postgresql username: `postgres`
+
+Check timezone: 
+```bash
+docker exec -it master psql -U postgres -c "SHOW timezone;"
+```
+Check pg_hba file location
+
+```bash
+docker exec -it master psql -U postgres -c "SHOW hba_file;"
+```
+Check shared_buffer
+```bash
+docker exec -it master psql -U postgres -c "SHOW shared_buffers;"
+```
+
 
 ## Create Replication User
 In order to take a backup we will use a new PostgreSQL user account which has the permissions to do replication.
