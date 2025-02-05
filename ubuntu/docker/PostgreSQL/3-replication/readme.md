@@ -11,8 +11,12 @@ Few things to note here:
 - Set unique data volumes for data between instances
 - Set unique config files for each instance
 
-Start with instance 1 (master):
+## make sure postgres user will have access in archive directory
+```bash
+sudo chown -R 999:999 ${PWD}/postgres/archive
+```
 
+## Start with instance 1 (master):
 ```bash
 docker run -it --rm --name postgres-1 \
   -e POSTGRES_USER=postgresadmin \
