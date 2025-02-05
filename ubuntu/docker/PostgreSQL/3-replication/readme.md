@@ -20,7 +20,7 @@ sudo chown -R 999:999 ${PWD}/postgres/master/archive
 ```bash
 docker run -d --name master \
   -e POSTGRES_USER=postgresadmin \
-  -e POSTGRES_PASSWORD=admin123 \
+  -e POSTGRES_PASSWORD=postgresadmin123 \
   -e POSTGRES_DB=postgresdb \
   -e PGDATA=/data \
   -v ${PWD}/postgres/master/pgdata:/data \
