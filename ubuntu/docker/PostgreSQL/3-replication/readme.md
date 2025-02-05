@@ -1,4 +1,4 @@
-#PostgreSQL Replication
+# PostgreSQL Replication
 PostgreSQL replication is the process of copying data from one database server (primary) to
 another (replica) in real-time or near real-time. 
 This allows for high availability, load balancing, and disaster recovery.
