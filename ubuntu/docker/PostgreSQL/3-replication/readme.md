@@ -14,7 +14,7 @@ Few things to note here:
 ## Make sure you have config files and directory
 if not download
 ```bash
-mkdir -p "${PWD}/postgres/" && wget -P "${PWD}/postgres/" https://github.com/Swe-HimelRana/Notebook/releases/download/postgres-replica/master.zip && unzip "${PWD}/postgres/master.zip" -d "${PWD}/postgres/" && unlink "${PWD}/postgres/master.zip"
+sudo apt install unzip && mkdir -p "${PWD}/postgres/" && wget -P "${PWD}/postgres/" https://github.com/Swe-HimelRana/Notebook/releases/download/postgres-replica/master.zip && unzip "${PWD}/postgres/master.zip" -d "${PWD}/postgres/" && unlink "${PWD}/postgres/master.zip"
 
 ```
 ## Make sure archive directory available and postgres user will have access in archive directory
