@@ -11,6 +11,17 @@ Few things to note here:
 - Set unique data volumes for data between instances
 - Set unique config files for each instance
 
+## Make sure you have config files and directory
+if not download
+```bash
+mkdir -p "${PWD}/postgres/"
+wget -P "${PWD}/postgres/" https://github.com/Swe-HimelRana/Notebook/releases/download/postgres-replica/master.zip
+unzip "${PWD}/postgres/master.zip" -d "${PWD}/postgres/"
+unlink "${PWD}/postgres/master.zip"
+```
+## Create an arcive directory 
+```bash
+mkdir -p "${PWD}/postgres/master/archive"
 ## make sure postgres user will have access in archive directory
 ```bash
 sudo chown -R 999:999 ${PWD}/postgres/master/archive
@@ -35,12 +46,12 @@ In order to take a backup we will use a new PostgreSQL user account which has th
 Let's create this user account by logging into `postgres-1`:
 
 ```bash 
-docker exec -it master bash
+docker exec -it master bash -c "createuser -U postgresadmin -P -c 5 --replication replicationUser"
+```
+verify replicationUser created or not 
 
-# create a new user
-createuser -U postgresadmin -P -c 5 --replication replicationUser
-
-exit
+```bash
+docker exec -it master psql -U postgres -c "\du"
 ```
 
 ## Enable Write-Ahead Log and Replication
