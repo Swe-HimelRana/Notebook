@@ -59,12 +59,12 @@ In order to take a backup we will use a new PostgreSQL user account which has th
 Let's create this user account by logging into `postgres-1`:
 
 ```bash 
-docker exec -it master bash -c "createuser -U postgresadmin -P -c 5 --replication replicationUser"
+docker exec -it master psql -U postgres -c "CREATE ROLE replicationUser WITH REPLICATION LOGIN PASSWORD 'strong_password' CONNECTION LIMIT 5;"
 ```
 verify replicationUser created or not 
 
 ```bash
-docker exec -it master psql -U postgres -c "\du"
+docker exec -it master psql -U postgres -c "SELECT rolname, rolsuper, rolreplication, rolconnlimit FROM pg_roles WHERE rolname = 'replicationuser';"
 ```
 
 
