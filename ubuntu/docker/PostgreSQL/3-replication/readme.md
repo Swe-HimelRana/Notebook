@@ -88,7 +88,7 @@ docker run -it --rm --name postgres-2 \
   -v ${PWD}/postgres-2/archive:/mnt/server/archive \
   -p 5001:5432 \
   postgres:15.0 -c config_file=/config/postgresql.conf
-```bash
+```
 
 ## Test the replication
 
