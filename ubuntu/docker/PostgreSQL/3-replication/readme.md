@@ -17,12 +17,9 @@ if not download
 mkdir -p "${PWD}/postgres/" && wget -P "${PWD}/postgres/" https://github.com/Swe-HimelRana/Notebook/releases/download/postgres-replica/master.zip && unzip "${PWD}/postgres/master.zip" -d "${PWD}/postgres/" && unlink "${PWD}/postgres/master.zip"
 
 ```
-## Create an arcive directory 
+## Make sure archive directory available and postgres user will have access in archive directory
 ```bash
-mkdir -p "${PWD}/postgres/master/archive"
-## make sure postgres user will have access in archive directory
-```bash
-sudo chown -R 999:999 ${PWD}/postgres/master/archive
+mkdir -p "${PWD}/postgres/master/archive" && sudo chown -R 999:999 "${PWD}/postgres/master/archive"
 ```
 
 ## Start with instance 1 (master):
