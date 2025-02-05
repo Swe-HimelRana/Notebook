@@ -7,25 +7,25 @@ This allows for high availability, load balancing, and disaster recovery.
 Let's start by running our primary PostgreSQL in docker
 
 Few things to note here:
-- We start our instance with a different name to identify it as the first instance with the `--name postgres-1` flag and `2` for the second instance
+- We start our instance with a different name to identify it as the first instance with the `--name master` flag and `2` for the second instance
 - Set unique data volumes for data between instances
 - Set unique config files for each instance
 
 ## make sure postgres user will have access in archive directory
 ```bash
-sudo chown -R 999:999 ${PWD}/postgres/archive
+sudo chown -R 999:999 ${PWD}/postgres/master/archive
 ```
 
 ## Start with instance 1 (master):
 ```bash
-docker run -it --rm --name postgres-1 \
+docker run -d --name master \
   -e POSTGRES_USER=postgresadmin \
   -e POSTGRES_PASSWORD=admin123 \
   -e POSTGRES_DB=postgresdb \
   -e PGDATA=/data \
-  -v ${PWD}/postgres-1/pgdata:/data \
-  -v ${PWD}/postgres-1/config:/config \
-  -v ${PWD}/postgres-1/archive:/mnt/server/archive \
+  -v ${PWD}/postgres/master/pgdata:/data \
+  -v ${PWD}/postgres/master/config:/config \
+  -v ${PWD}/postgres/master/archive:/mnt/server/archive \
   -p 5000:5432 \
   postgres:15.0 -c config_file=/config/postgresql.conf
 ```
@@ -35,7 +35,7 @@ In order to take a backup we will use a new PostgreSQL user account which has th
 Let's create this user account by logging into `postgres-1`:
 
 ```bash 
-docker exec -it postgres-1 bash
+docker exec -it master bash
 
 # create a new user
 createuser -U postgresadmin -P -c 5 --replication replicationUser
@@ -67,14 +67,14 @@ Note that we also mount our blank data directory as we will make a new backup in
 
 ```bash
 docker run -it --rm \
-  -v ${PWD}/postgres-2/pgdata:/data \
+  -v ${PWD}/postgres/master/pgdata:/data \
   --entrypoint /bin/bash \
   postgres:15.0
 ```
-Take the backup by logging into `postgres-1` with our `replicationUser` and writing the backup to `/data`.
+Take the backup by logging into `master` with our `replicationUser` and writing the backup to `/data`.
 
 ```bash
-pg_basebackup -h postgres-1 -p 5432 -U replicationUser -D /data/ -Fp -Xs -R
+pg_basebackup -h master -p 5432 -U replicationUser -D /data/ -Fp -Xs -R
 ```
 
 Now we should see PostgreSQL data ready for our second instance in `${PWD}/postgres-2/pgdata`
