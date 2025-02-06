@@ -3,7 +3,7 @@ PostgreSQL replication is the process of copying data from one database server (
 another (replica) in real-time or near real-time. 
 This allows for high availability, load balancing, and disaster recovery.
 
-## Get our Primary (Master) PostgreSQL up and running
+## 1. Get our Primary (Master) PostgreSQL up and running
 Let's start by running our primary PostgreSQL in docker
 
 Few things to note here:
@@ -83,7 +83,12 @@ More documentation for configuration [wal_level](https://www.postgresql.org/docs
 wal_level = replica
 max_wal_senders = 3
 ```
-
+# 2. Get our Secondary (replica) PostgreSQL up and running
+## Make sure you have config files and directory
+if not download
+```bash
+sudo apt install -y unzip && mkdir -p "${PWD}/postgres/replica/" && wget -O "${PWD}/postgres/replica/replica.zip" https://github.com/Swe-HimelRana/Notebook/releases/download/postgres-replica/replica.zip && unzip -d "${PWD}/postgres/replica/" "${PWD}/postgres/replica/replica.zip" > /dev/null 2>&1 && rm "${PWD}/postgres/replica/replica.zip" && mv "${PWD}/postgres/replica/replica" "${PWD}/postgres/replica/config"
+```
 ## Take a base backup
 To take a database backup, we'll be using the [pg_basebackup](https://www.postgresql.org/docs/current/app-pgbasebackup.html) utility.
 
