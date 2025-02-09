@@ -59,7 +59,7 @@ In order to take a backup we will use a new PostgreSQL user account which has th
 Let's create this user account by logging into `postgres-1`:
 
 ```bash 
-docker exec -it master psql -U postgres -c "CREATE ROLE replicationUser WITH REPLICATION LOGIN PASSWORD 'strong_password' CONNECTION LIMIT 5;"
+docker exec -it master psql -U postgres -c "CREATE ROLE replicationuser WITH REPLICATION LOGIN PASSWORD 'NewStrongPassword' CONNECTION LIMIT 5;"
 ```
 verify replicationUser created or not 
 
@@ -101,10 +101,10 @@ docker run -it --rm \
   --entrypoint /bin/bash \
   postgres:15.0
 ```
-Take the backup by logging into `master` with our `replicationUser` and writing the backup to `/data`.
+Take the backup by logging into `master` with our `replicationuser` and writing the backup to `/data`.
 
 ```bash
-pg_basebackup -h master -p 5432 -U replicationUser -D /data/ -Fp -Xs -R
+pg_basebackup -h your_master_server_ip -p 5432 -U replicationuser -D /data/ -Fp -Xs -R
 ```
 
 Now we should see PostgreSQL data ready for our second instance in `${PWD}/postgres-2/pgdata`
